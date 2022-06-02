@@ -1,34 +1,13 @@
 version: "3"
 services:
-  server:
-    # define the path to the Dockerfile to use to create the image
-    # Here 'server/' corresponds to the path to the server Dockerfile
-    build: server/
-
-    # The command to execute once the image is created.
-    command: python ./server.py
-
-    # Its syntax is as follows: [port we want on our machine]:[port we want to retrieve in the container]
-    # In our case, we want to use port 1234 on our machine and
-    # retrieve port 1234 from the container
+  database:
+    image: "redis:latest"
+    hostname: redis
     ports:
-      - 1234:1234
-
-  client:
-    # Here 'client/ corresponds to the path to the client folder
-    # that contains the Dockerfile to use.
-    build: client/
-
-    # The command to execute once the image is created.
-    # The following command will execute "python ./client.py".
-    command: python ./client.py
-
-    # The keyword 'network_mode' is used to define the network type.
-    # Here we define that the container can access to the 'localhost' of the computer.
-    network_mode: host
-
-    # The keyword'depends_on' allows you to define whether the service
-    # should wait until other services are ready before launching.
-    # Here, we want the 'client' service to wait until the 'server' service is ready.
-    depends_on:
-      - server
+      - "6379:6379"
+  server:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
