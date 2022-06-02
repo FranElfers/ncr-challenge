@@ -1,45 +1,42 @@
-import { useState } from 'react'
-import logo from './logo.svg'
+import { FunctionComponent, useEffect, useState } from 'react'
 import './App.css'
+import logo from './ncr.png'
+
+const Cuenta:FunctionComponent<{name:string,id:string}> = ({name,id}) => {
+  return <div className="cuenta">
+    <h3>{name}</h3>
+    <p>Nro: {id}</p>
+  </div>
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ cuentas, setCuentas ] = useState([])
+  useEffect(() => {
+    fetch('http://localhost:3001/123')
+      .then(res => res.json())
+      .then(res => setCuentas(res))
+  }, [])
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+  useEffect(() => {
+    console.log(cuentas)
+  }, [cuentas])
+  return <>
+    <header className="App-header">
+      <img src={logo} alt="logo" />
+    </header>
+    <div className="content">
+      <p>Consulta de saldo</p>
+      <h2>Selecciona la cuenta a consultar</h2>
+      <div className="cuentas">
+        <Cuenta name='Cuenta Corriente' id='123124' />
+        <Cuenta name='Cuenta Corriente' id='123124' />
+        <Cuenta name='Cuenta Corriente' id='123124' />
+        <Cuenta name='Cuenta Corriente' id='123124' />
+        <Cuenta name='Cuenta Corriente' id='123124' />
+      </div>
+      <button className="salir">Salir</button>
     </div>
-  )
+  </>
 }
 
 export default App
