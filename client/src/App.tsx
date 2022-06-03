@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import logo from './ncr.png'
 import './App.css'
-import DetalleCuenta from './DetalleCuenta'
+import DetalleCuenta from './components/DetalleCuenta'
 import CuentasView from './CuentasView'
 import Dashboard from './Dashboard'
 import OpcionesView from './OpcionesView'
@@ -15,10 +15,10 @@ const Login = () => {
     navigate("/"+clientName.current?.value, {replace:true})
   }
 
-  return <>
+  return <form>
     <input ref={clientName} type="text" />
-    <button className="verde" onClick={login}>Ingresar</button>
-  </>
+    <button type='submit' className="verde" onClick={login}>Ingresar</button>
+  </form>
 }
 
 function App() {

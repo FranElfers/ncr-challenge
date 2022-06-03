@@ -1,8 +1,8 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { getAccounts } from "./utils"
-import { Cuenta, ListaCuentas } from "./ListaCuentas"
-import Load from "./Loading"
+import { Cuenta, ListaCuentas } from "./components/ListaCuentas"
+import Load from "./components/Loading"
 
 const CuentasView:FunctionComponent = () => {
   const [ cuentas, setCuentas ] = useState<Cuenta[]>([])

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
-import Transferencias from "./Transferencias"
+import Transferencias from "./components/Transferencias"
 
 const Dashboard = () => {
 	return <>
 		<h3>Dashboard</h3>
 		<Link to="/fran/cuentas"replace={true}>Cuentas</Link>
-		<h4>Transferencias</h4>
+		<h4>Ultimas 5 ransferencias</h4>
 		<Transferencias />
 	</>
 }

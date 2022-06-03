@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getTransfers, SERVER_URL } from "./utils"
+import { getTransfers } from "../utils"
 
 
 interface Transfer {
