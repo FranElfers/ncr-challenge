@@ -11,14 +11,19 @@ const getList = async (client, type) => await redis.lRange(`${client}:${type}`, 
 
 /** Crear una cuenta */
 async function createAccount(client, amount, type) {
-	const completeType = amount === 'ahorro' ? "Cuenta de ahorro" : "Cuenta corriente"
+	const completeType = type === 'ahorro' ? "Cuenta de ahorro" : "Cuenta corriente"
 	const accountData = {
 		balance: amount,
 		cbu: CBUGenerator(),
 		name: completeType,
 		client
 	}
-	return await upload(`${client}:accounts`, accountData)
+
+	// Checkear cantidad de cuentas
+	const accountList = await redis.lRange(client+":accounts", 0, -1)
+	if (accountList.length >= 5) return 405
+
+	return upload(`${client}:accounts`, accountData)
 }
 
 
@@ -57,18 +62,17 @@ async function makeTransfer(client,transfer) {
 	const origenCall = await redis.get(transfer.from)
 	const origen = JSON.parse(origenCall)
 	origen.balance = origen.balance - transfer.amount
-	console.log(origen)
 	await redis.set(transfer.from, JSON.stringify(origen))
-	.then(console.log)
-	.catch(console.log)
+	// .then(console.log)
+	// .catch(console.log)
 
-	// Cambiar saldo en origen
+	// Cambiar saldo en destino
 	const destinoCall = await redis.get(transfer.to)
 	const destino = JSON.parse(destinoCall)
 	destino.balance = destino.balance + transfer.amount
 	await redis.set(transfer.to, JSON.stringify(destino))
-		.then(console.log)
-		.catch(console.log)
+	// .then(console.log)
+	// .catch(console.log)
 
 	return upload(`${client}:transfers`, {
 		timestamp: new Date(),

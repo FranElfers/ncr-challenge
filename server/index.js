@@ -3,11 +3,6 @@ const dotenv = require('dotenv');
 const { createAccount, getAccount, makeTransfer, getClientProcedures } = require('./clients');
 const cors = require('cors');
 
-/* CURL COMMANDS
-curl -XGET -H "Content-type: application/json" -d '{"key":"<key>"}' 'http://localhost:3001/123'
-curl -XPOST -H "Content-type: application/json" 'http://localhost:3001/cliente/nueva/transferencia?monto=1&origen=malta&destino=argentina'
-*/
-
 dotenv.config()
 
 const PORT = process.env.PORT || 3001
@@ -44,8 +39,11 @@ app.post('/:cliente/nueva/cuenta', async (req, res) => {
 	if (tipo !== "ahorro" && tipo !== "corriente") return res.json({state: 'wrong queries'})
 	
 	const state = await createAccount(req.params.cliente, parseInt(monto), tipo)
-
+	console.log(state)
+	
 	res.status(state ? 201 : 400)
+	if (state === 405) res.status(state)
+
 	return res.json({ state })
 })
 
