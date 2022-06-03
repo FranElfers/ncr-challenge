@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { SERVER_URL } from "./utils"
+import { getTransfers, SERVER_URL } from "./utils"
 
 
 interface Transfer {
@@ -14,14 +14,11 @@ const Transferencias:FunctionComponent = () => {
   const { cliente } = useParams()
 	const [ transfers, setTransfers ] = useState<any[]>([])
 
-	const sortByDate = (list:Transfer[]) => 
-		list.sort((a,b) => new Date(b.timestamp).valueOf() - new Date(a.timestamp).valueOf())
-
 	const init = () => {
 		// Transferencias
-		fetch(`${SERVER_URL}/${cliente}/transferencias`)
-			.then(res => res.json())
-			.then(res => setTransfers(sortByDate(res.list)))
+		getTransfers(cliente)
+			.then(res => setTransfers(res))
+			.catch(err => console.log(`${cliente} no encontrado`))
 	}
 
 	useEffect(init, [])

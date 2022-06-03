@@ -1,10 +1,11 @@
 import { useRef } from 'react'
-import { Link, Routes, Route, useNavigate, Navigate, useParams, useLocation } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import logo from './ncr.png'
 import './App.css'
 import DetalleCuenta from './DetalleCuenta'
 import CuentasView from './CuentasView'
 import Dashboard from './Dashboard'
+import OpcionesView from './OpcionesView'
 
 
 const Login = () => {
@@ -37,6 +38,7 @@ function App() {
         <Route path='/' element={<Login/>} />
         <Route path=":cliente" element={<Dashboard />} />
         <Route path=":cliente/cuentas" element={<CuentasView />} />
+        <Route path=":cliente/cuentas/opciones" element={<OpcionesView />} />
         <Route path=":cliente/cuentas/:cuenta" element={<DetalleCuenta />} />
       </Routes>
     </div>

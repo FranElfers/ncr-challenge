@@ -1,6 +1,6 @@
 import { FormEvent, FunctionComponent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { SERVER_URL } from "./utils";
+import { getAccount, getAccounts, newTransfer, SERVER_URL } from "./utils";
 import Load from "./Loading";
 
 interface Details {
@@ -24,27 +24,29 @@ const DetalleCuenta:FunctionComponent = () => {
 
 	const init = () => {
 		// Detalles de la cuenta
-		fetch(`${SERVER_URL}/${cliente}/${cuenta}`)
-			.then(res => res.json())
+		getAccount(cliente, cuenta)
 			.then(res => setDetails(res))
-
+			.catch(err => console.log(`Cuenta de ${cliente} no encontrada`))
+			
 		// Lista de cuentas
-		fetch(`${SERVER_URL}/${cliente}`)
-			.then(res => res.json())
-			.then(res => setAccounts(res.list))
+		getAccounts(cliente)
+			.then(res => setAccounts(res))
+			.catch(err => console.log(`${cliente} no encontrado`))
 	}
 
 	useEffect(init, [])
 
 	const transferHandle = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-		const { account, amount } = Object.fromEntries(new FormData(e.currentTarget))
+
+		// Datos del formulario
+		const entries = Object.fromEntries(new FormData(e.currentTarget))
+		const amount = entries.amount as string
+		const cuentaDestino = entries.amount as string
 
 		if (details.balance - parseInt(amount as string) < 0) return alert('Saldo insuficiente')
 
-		const queries = `?monto=${amount}&origen=${cuenta}&destino=${account}`
-
-    fetch(`${SERVER_URL}/${cliente}/nueva/transferencia${queries}`,{method:"POST"})
+    newTransfer(cliente, amount, cuenta, cuentaDestino)
 			.then(init)
       .catch(console.log)
 	}

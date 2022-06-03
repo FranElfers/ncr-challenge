@@ -73,6 +73,11 @@ button {
   background-color: #54b848cc;
 }
 
+.verde:disabled, .verde:disabled:hover {
+  background-color: #c1c1c1;
+  cursor: default;
+}
+
 .cuenta {
   min-width: 250px;
 }
@@ -132,4 +137,14 @@ form {
 form .field {
   display: flex;
   justify-content: space-between;
+}
+
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.opciones button {
+  padding: 10px;
 }
