@@ -6,13 +6,18 @@ body {
   height: 100vh;
   background-color: #202124;
 }
+
+button {
+  border: none;
+}
+
 #root {
   position: relative;
   text-align: center;
   width: 1024px;
   height: 768px;
   max-width: 1024px;
-  max-height: 768px;
+  max-height: 100vh;
   background-color: #fefefe;
   border-radius: 10px;
   overflow: hidden;
@@ -39,14 +44,32 @@ body {
   gap: 10px;
 }
 
-.cuenta, .salir {
+.cuenta {
+  display: none;
+}
+
+.cuenta span {
+  padding: 4px;
+  margin-right: 5px;
+  color: white;
+  background-color: #54b848;
+  border-radius: 4px;
+}
+
+.cuenta:nth-child(-n+5) {
+  display: inline-block;
+  font-weight: 600;
+}
+
+
+.cuenta, .verde {
   background-color: #54b848;
   border-radius: 5px;
   color: white;
   cursor: pointer;
 }
 
-.cuenta:hover, .salir:hover {
+.cuenta:hover, .verde:hover {
   background-color: #54b848cc;
 }
 
@@ -58,8 +81,55 @@ body {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  font-size: 1.3em;
-  border: none;
-  height: 50px;
-  width: 100px;
+  height: 40px;
+  width: 80px;
+}
+
+.detalleCuenta {
+  width: 450px;
+}
+
+.detalleCuenta p {
+  text-align: left;
+}
+
+.detalleCuenta span {
+  float: right;
+}
+
+.transfers {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.transfer {
+  display: none;
+}
+
+.transfer span {
+  padding: 4px;
+  margin-right: 5px;
+  color: white;
+  background-color: #54b848;
+  border-radius: 4px;
+}
+
+.transfer:nth-child(-n+5) {
+  display: inline-block;
+  font-weight: 600;
+}
+
+form {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+form .field {
+  display: flex;
+  justify-content: space-between;
 }
