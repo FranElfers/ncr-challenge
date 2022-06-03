@@ -38,7 +38,7 @@ app.get('/:cliente/:cuenta', async (req, res) => {
 });
 
 
-// Nueva cuenta. &Queries&: cliente, monto, tipo
+// Nueva cuenta. &Queries&: monto, tipo
 app.post('/:cliente/nueva/cuenta', async (req, res) => {
 	const { monto, tipo } = req.query
 	if (tipo !== "ahorro" && tipo !== "corriente") return res.json({state: 'wrong queries'})
@@ -55,12 +55,13 @@ app.post('/:cliente/nueva/transferencia', async (req, res) => {
 	try {
 		const data = {
 			amount: parseInt(req.query.monto),
-			from: parseInt(req.query.origen),
-			to: parseInt(req.query.destino)
+			from: req.query.origen,
+			to: req.query.destino
 		}
 		const state = await makeTransfer(req.params.cliente, data)
 		return res.json({ state })
 	} catch(err) {
+		res.status(400)
 		return res.json({state:"wrong queries"})
 	}
 });

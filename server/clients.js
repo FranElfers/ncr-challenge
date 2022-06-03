@@ -1,6 +1,10 @@
 const Redis = require('redis');
 const redis = Redis.createClient()
-redis.connect()
+console.log('connecting to redis')
+
+redis.connect().catch(err => {
+	console.log('error connecting')
+})
 
 /** Obtiene una lista de la base de datos */
 const getList = async (client, type) => await redis.lRange(`${client}:${type}`, 0, -1)
@@ -10,7 +14,7 @@ async function createAccount(client, amount, type) {
 	const completeType = amount === 'ahorro' ? "Cuenta de ahorro" : "Cuenta corriente"
 	const accountData = {
 		balance: amount,
-		cbu: 123123,
+		cbu: CBUGenerator(),
 		name: completeType,
 		client
 	}
@@ -48,7 +52,25 @@ async function getClientProcedures(client, type) {
 
 /** Realiza una transferencia entre dos cuentas de un cliente */
 async function makeTransfer(client,transfer) {
-	return await upload(`${client}:transfers`, {
+
+	// Cambiar saldo en origen
+	const origenCall = await redis.get(transfer.from)
+	const origen = JSON.parse(origenCall)
+	origen.balance = origen.balance - transfer.amount
+	console.log(origen)
+	await redis.set(transfer.from, JSON.stringify(origen))
+	.then(console.log)
+	.catch(console.log)
+
+	// Cambiar saldo en origen
+	const destinoCall = await redis.get(transfer.to)
+	const destino = JSON.parse(destinoCall)
+	destino.balance = destino.balance + transfer.amount
+	await redis.set(transfer.to, JSON.stringify(destino))
+		.then(console.log)
+		.catch(console.log)
+
+	return upload(`${client}:transfers`, {
 		timestamp: new Date(),
 		...transfer
 	})
@@ -66,15 +88,24 @@ async function upload(key,data) {
 		} else {
 			await redis.incr('key')
 		}
-		
-		await redis.set(id || "1", data)
-		await redis.rPush(key, id || "1")
+		const newId = await redis.get('key')
+		await redis.set(newId, data)
+		await redis.rPush(key, newId)
 
 		return true
 	} catch (err) {
 		console.log('redis upload failed', err)
 		return false
 	}
+}
+
+function CBUGenerator() {
+	let output = ""
+
+	while (output.length < 22)
+		output += Math.floor(Math.random() *10)
+
+	return output
 }
 
 module.exports = {
