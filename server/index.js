@@ -65,4 +65,7 @@ app.post('/:cliente/nueva/transferencia', async (req, res) => {
 });
 
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+const server = app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+// Para cerrar el server en testing
+module.exports = server

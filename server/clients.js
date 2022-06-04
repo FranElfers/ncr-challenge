@@ -20,7 +20,7 @@ async function createAccount(client, amount, type) {
 	}
 
 	// Checkear cantidad de cuentas
-	const accountList = await redis.lRange(client+":accounts", 0, -1)
+	const accountList = await getList(client, "accounts")
 	if (accountList.length >= 5) return 405
 
 	return upload(`${client}:accounts`, accountData)
@@ -58,26 +58,27 @@ async function getClientProcedures(client, type) {
 /** Realiza una transferencia entre dos cuentas de un cliente */
 async function makeTransfer(client,transfer) {
 
-	// Cambiar saldo en origen
-	const origenCall = await redis.get(transfer.from)
-	const origen = JSON.parse(origenCall)
-	origen.balance = origen.balance - transfer.amount
-	await redis.set(transfer.from, JSON.stringify(origen))
-	// .then(console.log)
-	// .catch(console.log)
+	const fran = async (direction) => {
+		// Cambiar saldo en origen
+		const accountCall = await redis.get(transfer[direction])
+		if (!accountCall) return false
+		const account = JSON.parse(accountCall)
+		const amount = ({from:-transfer.amount, to:transfer.amount})[direction]
+		
+		account.balance = account.balance + amount
 
-	// Cambiar saldo en destino
-	const destinoCall = await redis.get(transfer.to)
-	const destino = JSON.parse(destinoCall)
-	destino.balance = destino.balance + transfer.amount
-	await redis.set(transfer.to, JSON.stringify(destino))
-	// .then(console.log)
-	// .catch(console.log)
+		await redis.set(transfer[direction], JSON.stringify(account))
+		// .then(console.log)
+		// .catch(console.log)
+		return true
+	}
 
-	return upload(`${client}:transfers`, {
+	if (await fran("from") && await fran("to")) return upload(`${client}:transfers`, {
 		timestamp: new Date(),
 		...transfer
 	})
+
+	return false
 }
 
 
@@ -112,10 +113,19 @@ function CBUGenerator() {
 	return output
 }
 
+/** DANGER */
+function deleteDatabase() {
+	return redis.flushAll().then(() => 'FLUSHED')
+}
+function disconnectDatabase() {
+	return redis.disconnect()
+}
+
 module.exports = {
 	createAccount,
 	getAccount,
 	getClientProcedures,
 	makeTransfer,
-	upload	
+	deleteDatabase,
+	disconnectDatabase
 }
