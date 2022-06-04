@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const app = express()
 const { createAccount, getAccount, makeTransfer, getClientProcedures } = require('./clients');
-const PORT = 3001
+const PORT = process.env.NODE_ENV === 'test' ? 3002 : 3001
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃ Cliente: foo                                                             ┃

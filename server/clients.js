@@ -4,6 +4,7 @@ const Redis = require('redis');
 // Al ser un contenedor, necesita apuntar al contenedor de redis y no al server
 const url = process.env.PORT ? 'redis://database:6379' : 'redis://localhost:6379'
 const redis = Redis.createClient({url})
+redis.connect()
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃ Crear una cuenta                                          ┃
@@ -18,7 +19,6 @@ const redis = Redis.createClient({url})
 // ┃ -> makeTransfer(<cliente>,<{amount, from, to}>)           ┃
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-redis.connect()
 
 /** Obtiene una lista de la base de datos */
 const getList = async (client, type) => await redis.lRange(`${client}:${type}`, 0, -1)
@@ -139,5 +139,6 @@ module.exports = {
 	getClientProcedures,
 	makeTransfer,
 	deleteDatabase,
-	disconnectDatabase
+	disconnectDatabase,
+	connection: redis.isOpen
 }

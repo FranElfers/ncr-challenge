@@ -1,5 +1,5 @@
 const server = require('.');
-const { createAccount, getAccount, makeTransfer, getClientProcedures, deleteDatabase, disconnectDatabase } = require('./clients');
+const { createAccount, getAccount, makeTransfer, getClientProcedures, deleteDatabase, disconnectDatabase, connection } = require('./clients');
 
 afterAll(() => {
 	server.close()
@@ -7,6 +7,10 @@ afterAll(() => {
 })
 
 const testingClient = "tester"
+
+test("Conectar base de datos", async ()=>{
+	expect(await connection).toStrictEqual(true)
+})
 
 test("Eliminar base de datos", async ()=>{
 	expect(await deleteDatabase()).toStrictEqual("FLUSHED")
