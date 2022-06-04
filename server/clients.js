@@ -1,10 +1,10 @@
 const Redis = require('redis');
-const redis = Redis.createClient()
-console.log('connecting to redis')
 
-redis.connect().catch(err => {
-	console.log('error connecting')
-})
+// Si hay un puerto especificado en el environment, significa que es un contenedor
+// Al ser un contenedor, necesita apuntar al contenedor de redis y no al server
+const url = process.env.PORT ? 'redis://database:6379' : 'redis://localhost:6379'
+const redis = Redis.createClient({url})
+redis.connect()
 
 /** Obtiene una lista de la base de datos */
 const getList = async (client, type) => await redis.lRange(`${client}:${type}`, 0, -1)

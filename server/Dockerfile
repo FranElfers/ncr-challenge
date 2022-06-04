@@ -1,15 +1,17 @@
-FROM node:16
+FROM node:alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package.json .
+COPY ./package*.json ./
 
 RUN npm install
 
-COPY . ./
+COPY ./index.js ./
+
+COPY ./clients.js ./
 
 ENV PORT 3001
 
 EXPOSE $PORT
 
-CMD ["npm", "start"]
+CMD ["npm","start"]
