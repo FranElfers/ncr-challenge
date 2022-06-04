@@ -2,12 +2,12 @@
 
 Asegurarse de tener los puertos 6379, 3001 y 80 libres.
 
-### Requerimientos:
+## Requerimientos:
 
 Windows & Linux:
 - Docker
 
-### Iniciar
+## Iniciar
 
 `$ docker-compose up -d --build`
 
@@ -15,7 +15,7 @@ Ir a [http://localhost/](http://localhost/)
 
 # Desarrollo
 
-### Requerimientos:
+## Requerimientos:
 
 Windows:
 - Docker
@@ -24,7 +24,7 @@ Windows:
 Linux:
 - Node >14
 
-### Base de datos
+## Base de datos
 
 Iniciar base de datos
 
@@ -32,30 +32,26 @@ Win: `$ docker-compose -f database.yml up -d`
 
 Linux: `$ redis-server`
 
-### Servidor
-
-Iniciar servidor...
-
-`$ node /server/dist`
-
-O desarrollar en el servidor
+## Servidor
 
 `$ cd server`
 
-`$ npm start`
+`$ npm install`
 
-### Cliente
-
-Iniciar React app
-
-`$ cd client`
+Iniciar servidor
 
 `$ npm run dev`
 
-### Test unitarios
-
-Warn: purga la base de datos
-
-`$ cd server`
+Test unitarios (purga la base de datos)
 
 `$ npm test`
+
+## Cliente
+
+`$ cd client`
+
+`$ npm install`
+
+Iniciar React app
+
+`$ npm run dev`

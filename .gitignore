@@ -1,11 +1,9 @@
 # Dependency directories
 client/node_modules/
 server/node_modules/
-database/node_modules/
 
 # dotenv environment variables file
 .env
 
 # generate output
-server/dist
 client/dist
