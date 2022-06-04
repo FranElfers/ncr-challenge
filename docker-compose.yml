@@ -1,13 +1,28 @@
 version: "3"
 services:
   database:
-    image: "redis:latest"
-    hostname: redis
+    image: "redis:7.0-alpine"
+    restart: always
+    # hostname: redis
+    container_name: redis-database
     ports:
       - "6379:6379"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    command: redis-server --save 20 1 --loglevel warning
   server:
-    build: .
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: node-server
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react-client
+    ports:
+      - "80:80"
