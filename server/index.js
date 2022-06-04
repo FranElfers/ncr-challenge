@@ -1,16 +1,27 @@
-const express = require('express');
 const dotenv = require('dotenv');
-const { createAccount, getAccount, makeTransfer, getClientProcedures } = require('./clients');
 const cors = require('cors');
+const express = require('express');
+const app = express()
+const { createAccount, getAccount, makeTransfer, getClientProcedures } = require('./clients');
+const PORT = 3001
+
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃ Cliente: foo                                                             ┃
+// ┃ GET -> Cuentas bancarias:[]                                              ┃
+// ┃ http://localhost:3001/foo                                                ┃
+// ┃ GET -> Transferencias:[]                                                 ┃
+// ┃ http://localhost:3001/foo/transferencias                                 ┃
+// ┃ GET -> Detalle de cuenta:{}                                              ┃
+// ┃ http://localhost:3001/foo/795384                                         ┃
+// ┃ POST -> Crear cuenta                                                     ┃
+// ┃ http://localhost:3001/foo/nueva/cuenta?monto=10&tipo=ahorro              ┃
+// ┃ POST -> Hacer transferencia                                              ┃
+// ┃ http://localhost:3001/foo/nueva/cuenta?monto=10&origen=482&destino=421   ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 dotenv.config()
-
-const PORT = process.env.PORT || 3002
-const app = express()
-
 app.use(express.json())
 app.use(cors())
-
 
 // Cuentas bancarias de un cliente.
 app.get('/:cliente', async (req, res) => {

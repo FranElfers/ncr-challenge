@@ -4,6 +4,20 @@ const Redis = require('redis');
 // Al ser un contenedor, necesita apuntar al contenedor de redis y no al server
 const url = process.env.PORT ? 'redis://database:6379' : 'redis://localhost:6379'
 const redis = Redis.createClient({url})
+
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃ Crear una cuenta                                          ┃
+// ┃ -> createAccount(<cliente>, <saldo>, <tipo>)              ┃
+// ┃ Obtener cuenta                                            ┃
+// ┃ -> getAccount(<cliente>, <id cuenta>)                     ┃
+// ┃ Obtener cuentas                                           ┃
+// ┃ -> getClientProcedures(<cliente>, "accounts")             ┃
+// ┃ Obtener transferencias                                    ┃
+// ┃ -> getClientProcedures(<cliente>, "transfers")            ┃
+// ┃ Hacer transferencia                                       ┃
+// ┃ -> makeTransfer(<cliente>,<{amount, from, to}>)           ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
 redis.connect()
 
 /** Obtiene una lista de la base de datos */
@@ -58,7 +72,7 @@ async function getClientProcedures(client, type) {
 /** Realiza una transferencia entre dos cuentas de un cliente */
 async function makeTransfer(client,transfer) {
 
-	const fran = async (direction) => {
+	const transferFunds = async (direction) => {
 		// Cambiar saldo en origen
 		const accountCall = await redis.get(transfer[direction])
 		if (!accountCall) return false
@@ -67,13 +81,11 @@ async function makeTransfer(client,transfer) {
 		
 		account.balance = account.balance + amount
 
-		await redis.set(transfer[direction], JSON.stringify(account))
-		// .then(console.log)
-		// .catch(console.log)
+		await redis.set(transfer[direction], JSON.stringify(account)).catch(console.log)
 		return true
 	}
 
-	if (await fran("from") && await fran("to")) return upload(`${client}:transfers`, {
+	if (await transferFunds("from") && await transferFunds("to")) return upload(`${client}:transfers`, {
 		timestamp: new Date(),
 		...transfer
 	})
