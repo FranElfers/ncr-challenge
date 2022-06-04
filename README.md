@@ -1,6 +1,10 @@
-`$ git clone https://github.com/franelfers/ncr-challenge`
+```console
+git clone https://github.com/FranElfers/ncr-challenge
+```
 
-`$ cd ncr-challenge`
+```console
+cd ncr-challenge
+```
 
 # Produccion
 
@@ -107,4 +111,10 @@ docker-compose down
 
 ```console
 docker-compose up -d --build
+```
+
+Borrar cache de docker en caso de errores
+
+```console
+docker system prune -a
 ```
