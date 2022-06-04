@@ -1,3 +1,7 @@
+`$ git clone https://github.com/franelfers/ncr-challenge`
+
+`$ cd ncr-challenge`
+
 # Produccion
 
 Asegurarse de tener los puertos 6379, 3001 y 80 libres.
@@ -9,9 +13,17 @@ Windows & Linux:
 
 ## Iniciar
 
-`$ docker-compose up -d --build`
+```console
+docker-compose up -d
+```
 
 Ir a [http://localhost/](http://localhost/)
+
+## Detener
+
+```console
+docker-compose down
+```
 
 # Desarrollo
 
@@ -24,34 +36,75 @@ Windows:
 Linux:
 - Node >14
 
-## Base de datos
+## 1. Base de datos
 
 Iniciar base de datos
 
-Win: `$ docker-compose -f database.yml up -d`
+Windows
+```console
+docker-compose -f database.yml up -d
+```
 
-Linux: `$ redis-server`
+Linux
+```console
+redis-server
+```
 
-## Servidor
+Detener base de datos
 
-`$ cd server`
+Windows
+```console
+docker-compose -f database.yml down
+```
 
-`$ npm install`
+## 2. Servidor
+
+En otra terminal
+
+```console
+cd server
+```
+
+```console
+npm install
+```
 
 Iniciar servidor
 
-`$ npm run dev`
+```console
+npm run dev
+```
 
 Test unitarios (purga la base de datos)
 
-`$ npm test`
+```console
+npm test
+```
 
-## Cliente
+## 3. Cliente
 
-`$ cd client`
+En otra terminal
 
-`$ npm install`
+```console
+cd client
+```
+
+```console
+npm install
+```
 
 Iniciar React app
 
-`$ npm run dev`
+```console
+npm run dev
+```
+
+## 4. Aplicar cambios a produccion
+
+```console
+docker-compose down
+```
+
+```console
+docker-compose up -d --build
+```
