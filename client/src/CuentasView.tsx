@@ -1,17 +1,18 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { getAccounts } from "./utils"
-import { Cuenta, ListaCuentas } from "./components/ListaCuentas"
+import { ListaCuentas } from "./components/ListaCuentas"
 import Load from "./components/Loading"
+import { Account } from "./components/tipos.interface"
 
 const CuentasView:FunctionComponent = () => {
-  const [ cuentas, setCuentas ] = useState<Cuenta[]>([])
+  const [ accounts, setAccounts ] = useState<Account[]>([])
   const { cliente } = useParams()
 
   useEffect(() => {
     getAccounts(cliente)
-      .then(res => setCuentas(res))
-			.catch(err => console.log(`${cliente} no encontrado`))
+      .then(res => setAccounts(res))
+			.catch(err => alert(`${cliente} no encontrado`))
   }, [])
 
   return <>
@@ -19,8 +20,8 @@ const CuentasView:FunctionComponent = () => {
     <Link to="opciones">Opciones</Link>
     <h2>Selecciona la cuenta a consultar</h2>
     <div className="cuentas">
-      <Load loaded={cuentas.length !== 0} custom="No posee cuentas">
-        <ListaCuentas cuentas={cuentas}/>
+      <Load loaded={accounts.length !== 0} custom="No posee cuentas">
+        <ListaCuentas accounts={accounts}/>
       </Load>
     </div>
   </>

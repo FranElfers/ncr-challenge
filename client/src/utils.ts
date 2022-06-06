@@ -19,7 +19,7 @@ export const getAccount = (client:S, acc:S) => fetchServer(`/${client}/${acc}`)
 
 export const getAccounts = (client:S):Promise<any[]> => fetchServer(`/${client}`).then(res => res.list)
 
-export const newTransfer = (client:S, amount:S, from:S, to:S) => {
+export const newTransfer = (client:S, amount:S|number, from:S, to:S) => {
 	const url = `/${client}/nueva/transferencia?monto=${amount}&origen=${from}&destino=${to}`
 	return fetch(SERVER_URL+url, {method:"POST"})
 }

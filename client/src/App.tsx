@@ -16,17 +16,21 @@ const Login = () => {
   }
 
   return <form>
-    <input ref={clientName} type="text" />
+    <input ref={clientName} type="text" required />
     <button type='submit' className="verde" onClick={login}>Ingresar</button>
   </form>
 }
 
 function App() {
 	const navigate = useNavigate()
-  const location = useLocation().pathname.split('/')
 
-  // Remover ultimo elemento para navegar hacia atras
+  // location = ['cliente','cuentas','opciones']
+  const location = useLocation().pathname.split('/')
+  
+  // location = ['cliente','cuentas']
   location.pop()  
+  
+  // location = 'cliente/cuentas'
   const back = location.join('/')
 
   return <>

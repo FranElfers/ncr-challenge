@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getAccount, getAccounts, newAccount } from "./utils"
+import { getAccounts, newAccount } from "./utils"
 
 const OpcionesView = () => {
 	const [ max, setMax ] = useState(true)
   const { cliente } = useParams()
 
+	const update = () => {
+		getAccounts(cliente).then(res => setMax(res.length >= 4))
+	}
+
 	const createAccount = (type:string) => {
-    newAccount(cliente, type).then(console.log).catch(console.log)
+		newAccount(cliente, type).then(console.log).catch(console.log)
+		return update()
   }
 
-	useEffect(() => {
-		getAccounts(cliente).then(res => {
-			console.log(res.length, res.length >= 5)
-			return setMax(res.length >= 5)})
-	}, [])
+	useEffect(update, [])
 
 	return <>
 		<h4>Opciones</h4>

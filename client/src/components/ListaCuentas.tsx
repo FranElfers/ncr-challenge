@@ -1,30 +1,23 @@
-import { EventHandler, FunctionComponent, MouseEventHandler } from "react"
+import { FunctionComponent, MouseEventHandler } from "react"
 import { useNavigate, useParams } from 'react-router-dom'
+import { Account } from "./tipos.interface"
 
-export interface Cuenta {
-  id: string
-  name: string
-  client: string
-}
-
-export const ListaCuentas:FunctionComponent<{cuentas:Cuenta[]}> = ({cuentas}) => {
-  return <>
-    {cuentas.map(({id,name}) => {
-      return <Cuenta key={id} name={name} id={id} />
-    })}
-  </>
-}
-
-const Cuenta:FunctionComponent<{name:string,id:string}> = ({name,id}) => {
+const Cuenta:FunctionComponent<{account:Account}> = ({account}) => {
 	const navigate = useNavigate()
   const { cliente } = useParams()
 
-	const handler:MouseEventHandler = (e) => {
-		navigate(`/${cliente}/cuentas/${id}`, {replace:true})
+	const handler:MouseEventHandler = () => {
+		navigate(`/${cliente}/cuentas/${account.id}`, {replace:true})
 	}
 	
-  return <div key={id} className="cuenta" onClick={handler}>
-    <h3>{name}</h3>
-    <p>Nro: {id}</p>
+  return <div key={account.id} className="cuenta" onClick={handler}>
+    <h3>{account.name}</h3>
+    <p>Nro: {account.id}</p>
   </div>
+}
+
+export const ListaCuentas:FunctionComponent<{accounts:Account[]}> = ({accounts}) => {
+  return <>
+    {accounts.map((a:Account) => <Cuenta key={a.id} account={a} />)}
+  </>
 }
