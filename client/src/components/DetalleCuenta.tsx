@@ -42,7 +42,7 @@ const DetalleCuenta:FunctionComponent = () => {
 		// Datos del formulario
 		const entries = Object.fromEntries(new FormData(e.currentTarget))
 		const amount = entries.amount as string
-		const cuentaDestino = entries.amount as string
+		const cuentaDestino = entries.account as string
 
 		if (details.balance - parseInt(amount as string) < 0) return alert('Saldo insuficiente')
 
