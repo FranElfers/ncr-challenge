@@ -1,7 +1,8 @@
 const server = require('.');
 const { createAccount, getAccount, makeTransfer, getClientProcedures, deleteDatabase, disconnectDatabase, connection } = require('./clients');
 
-afterAll(() => {
+afterAll(async () => {
+	await deleteDatabase()
 	server.close()
 	disconnectDatabase()
 })
@@ -63,7 +64,26 @@ test("Transferir $5 entre cuentas inexistentes", async ()=>{
 	expect(await makeTransfer(testingClient, transfer)).toStrictEqual(false)
 })
 
+test("Transferir todos los fondos de cuenta 1 a cuenta 2", async ()=>{
+	const transfer = {
+		amount: 5,
+		from: "1",
+		to: "2"
+	}
+	expect(await makeTransfer(testingClient, transfer)).toStrictEqual(true)
+})
+
+test("Cuenta 1 vacia", async ()=>{
+	const account = await getAccount(testingClient, "1")
+	expect(account.balance).toStrictEqual(0)
+})
+
+test("Cuenta 2 con $20", async ()=>{
+	const account = await getAccount(testingClient, "2")
+	expect(account.balance).toStrictEqual(20)
+})
+
 test("Obtener transferencias de cliente", async ()=>{
 	const lista = await getClientProcedures(testingClient, "transfers")
-	expect(lista.length).toStrictEqual(1)
+	expect(lista.length).toStrictEqual(2)
 })

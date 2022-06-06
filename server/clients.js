@@ -71,9 +71,10 @@ async function getClientProcedures(client, type) {
 
 /** Realiza una transferencia entre dos cuentas de un cliente */
 async function makeTransfer(client,transfer) {
+	/** transfer type = { amount:number, from:accountId, to:accountId } */
 
 	const transferFunds = async (direction) => {
-		// Cambiar saldo en origen
+		/** direction type = "from" | "to" */
 		const accountCall = await redis.get(transfer[direction])
 		if (!accountCall) return false
 		const account = JSON.parse(accountCall)
