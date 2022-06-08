@@ -1,8 +1,8 @@
 import { FormEvent, FunctionComponent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAccount, getAccounts, newTransfer } from "../utils";
-import Load from "./Loading";
-import { Details } from "./tipos.interface";
+import Load from "../components/Loading";
+import { Details } from "../tipos.interface";
 
 
 const DetalleCuenta:FunctionComponent = () => {

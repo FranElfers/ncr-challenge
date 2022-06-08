@@ -1,6 +1,6 @@
 import { FunctionComponent, MouseEventHandler } from "react"
 import { useNavigate, useParams } from 'react-router-dom'
-import { Account } from "./tipos.interface"
+import { Account } from "../tipos.interface"
 
 const Cuenta:FunctionComponent<{account:Account}> = ({account}) => {
 	const navigate = useNavigate()

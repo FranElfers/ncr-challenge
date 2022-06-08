@@ -8,6 +8,10 @@
     "dev": "nodemon .",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FranElfers/ncr-challenge.git"
+  },
   "author": "Francisco Elfers",
   "license": "ISC",
   "dependencies": {

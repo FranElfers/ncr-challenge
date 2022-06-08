@@ -1,25 +1,11 @@
-import { useRef } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import logo from './ncr.png'
-import './App.css'
-import DetalleCuenta from './components/DetalleCuenta'
-import CuentasView from './CuentasView'
+import DetalleCuenta from './DetalleCuenta'
+import CuentasView from './Cuentas'
 import Dashboard from './Dashboard'
-import OpcionesView from './OpcionesView'
-
-
-const Login = () => {
-  const clientName = useRef<HTMLInputElement>(null)
-	const navigate = useNavigate()
-  const login = () => {
-    navigate("/"+clientName.current?.value, {replace:true})
-  }
-
-  return <form>
-    <input ref={clientName} type="text" required />
-    <button type='submit' className="verde" onClick={login}>Ingresar</button>
-  </form>
-}
+import OpcionesView from './Opciones'
+import Login from './Login'
+import logo from '../assets/ncr.png'
+import '../assets/App.css'
 
 function App() {
 	const navigate = useNavigate()

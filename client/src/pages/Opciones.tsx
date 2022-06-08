@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getAccounts, newAccount } from "./utils"
+import { getAccounts, newAccount } from "../utils"
 
 const OpcionesView = () => {
 	const [ max, setMax ] = useState(true)

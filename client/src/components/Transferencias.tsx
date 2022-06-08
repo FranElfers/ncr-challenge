@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getTransfers } from "../utils"
-import { Transfer } from "./tipos.interface"
+import { Transfer } from "../tipos.interface"
 
 const Transferencia:FunctionComponent<{transfer:Transfer}> = ({transfer}) => {
-	return <div key={transfer.timestamp} className="transfer">
+	return <div className="transfer">
 		{(new Date(transfer.timestamp)).toLocaleString()}
 		<span>${transfer.amount}</span>
 		Nro {transfer.from} → Nro {transfer.to}
@@ -22,7 +22,7 @@ const Transferencias:FunctionComponent = () => {
 	}, [])
 
 	return <div className="transfers">
-		{transfers.map((t:Transfer) => <Transferencia transfer={t} />)}
+		{transfers.map((t:Transfer) => <Transferencia key={t.timestamp} transfer={t} />)}
 	</div>
 }
 

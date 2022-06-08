@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import Transferencias from "./components/Transferencias"
+import Transferencias from "../components/Transferencias"
 
 const Dashboard = () => {
 	return <>

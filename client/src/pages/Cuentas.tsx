@@ -1,9 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import { getAccounts } from "./utils"
-import { ListaCuentas } from "./components/ListaCuentas"
-import Load from "./components/Loading"
-import { Account } from "./components/tipos.interface"
+import { getAccounts } from "../utils"
+import { ListaCuentas } from "../components/ListaCuentas"
+import Load from "../components/Loading"
+import { Account } from "../tipos.interface"
 
 const CuentasView:FunctionComponent = () => {
   const [ accounts, setAccounts ] = useState<Account[]>([])
