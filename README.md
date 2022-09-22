@@ -6,7 +6,7 @@ git clone https://github.com/FranElfers/ncr-challenge
 cd ncr-challenge
 ```
 
-# Produccion
+# Producción
 
 Asegurarse de tener los puertos 6379, 3001 y 80 libres.
 
